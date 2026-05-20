@@ -1,5 +1,10 @@
 # Muzzle — Randomized Tool Output Wrapping
 
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Tests](https://img.shields.io/badge/tests-21%20passed-success.svg)](#)
+[![Used in ShibaClaw](https://img.shields.io/badge/Used_in-ShibaClaw-orange?logo=github)](https://github.com/RikyZ90/ShibaClaw)
+
 Anti-prompt-injection defense for LLM agent tool outputs.
 Extracted from the [ShibaClaw](https://github.com/RikyZ90/ShibaClaw) security architecture.
 
