@@ -82,8 +82,8 @@ safe_result = OutputSanitizer.wrap(raw_result, nonce, "my_tool_name")
 
 Integrating `Muzzle` into a continuous autonomous loop is incredibly simple. The golden rule is: **Regenerate the nonce at the start of every iteration**.
 
-<details>
-<summary><b>Show Practical Loop Example</b></summary>
+> **💡 FAQ: Does regenerating the nonce break the old chat history?**
+> **No!** The System Prompt instructs the LLM to treat *any* block resembling `<tool_output_XXXX>` as literal data. When you regenerate the nonce, you are only changing the *current* iteration's tag, making it impossible for the attacker to predict. The old tags in the conversation history remain fully inert and safe.
 
 ```python
 from muzzle import NonceGenerator, OutputSanitizer, SystemPromptFormatter
@@ -124,8 +124,6 @@ class SecureAgent:
                     "content": safe_result
                 })
 ```
-
-</details>
 
 ## 🏗️ Architecture
 
