@@ -7,14 +7,14 @@ name = "muzzle"
 version = "0.1.0"
 description = "Randomized Tool Output Wrapping — Anti-prompt-injection defense for LLM agent tool outputs"
 readme = "README.md"
-license = { text = "MIT" }
+license = { text = "Apache-2.0" }
 requires-python = ">= 3.10"
 authors = [{ name = "RikyZ" }]
 keywords = ["llm", "security", "prompt-injection", "agent", "tool-output"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Topic :: Security",
 ]
