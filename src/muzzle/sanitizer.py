@@ -3,6 +3,14 @@
 from __future__ import annotations
 
 from muzzle.nonce import NonceGenerator
+import base64
+
+_INJECTION_PATTERNS = [
+    "ignore previous instructions",
+    "you are now",
+    "system prompt",
+]
+
 
 
 class OutputSanitizer:
@@ -14,6 +22,14 @@ class OutputSanitizer:
     """
 
     @staticmethod
+    def pre_scan(text: str) -> str:
+        text_lower = text.lower()
+        for pattern in _INJECTION_PATTERNS:
+            if pattern in text_lower:
+                return "[SECURITY WARNING: Potential Prompt Injection Detected. Content sanitized.]"
+        return text
+
+    @staticmethod
     def sanitize(text: str, nonce: NonceGenerator) -> str:
         """Escape closing-tag sequences that appear in *text*."""
         closing = nonce.close_tag
@@ -21,12 +37,18 @@ class OutputSanitizer:
         return text.replace(closing, escaped)
 
     @staticmethod
-    def wrap(text: str, nonce: NonceGenerator, tool_name: str) -> str:
+    def wrap(text: str, nonce: NonceGenerator, tool_name: str, *, is_risky: bool = False) -> str:
         """Sanitize *text* and wrap it in randomized delimiters.
 
         Returns a string ready to be used as the ``content`` field of a
         ``role=tool`` message in the LLM conversation.
         """
+        text = OutputSanitizer.pre_scan(text)
         tag = nonce.tag_name
+        
+        if is_risky:
+            encoded = base64.b64encode(text.encode("utf-8")).decode("utf-8")
+            return f'<{tag} encoding="base64" name="{tool_name}">\n{encoded}\n</{tag}>'
+            
         sanitized = OutputSanitizer.sanitize(text, nonce)
         return f'<{tag} name="{tool_name}">\n{sanitized}\n</{tag}>'

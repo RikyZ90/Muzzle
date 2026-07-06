@@ -25,6 +25,7 @@ def wrap_tool_output(
     tool_name: str,
     *,
     nonce: NonceGenerator | None = None,
+    is_risky: bool = False,
 ) -> str:
     """Convenience wrapper: sanitize and wrap a tool output in one call.
 
@@ -37,4 +38,4 @@ def wrap_tool_output(
         if _default_nonce is None:
             _default_nonce = NonceGenerator()
         nonce = _default_nonce
-    return OutputSanitizer.wrap(text, nonce, tool_name)
+    return OutputSanitizer.wrap(text, nonce, tool_name, is_risky=is_risky)
